@@ -2,6 +2,7 @@ package com.cmg.ifpa.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class RamaArtesanalServiceImplTest {
     void testFindAll() {
         Pageable pageable = PageRequest.of(0, 10);
         Page<RamaArtesanal> page = new PageImpl<>(Arrays.asList(rama));
-        when(ramaArtesanalRepository.findAll(pageable)).thenReturn(page);
+        when(ramaArtesanalRepository.findAll(any(Pageable.class))).thenReturn(page);
         
         Page<RamaArtesanal> result = ramaArtesanalService.findAll(pageable);
         
@@ -79,9 +80,49 @@ public class RamaArtesanalServiceImplTest {
     @Test
     void testDelete() {
         doNothing().when(ramaArtesanalRepository).deleteById(1L);
-        
         ramaArtesanalService.delete(1L);
-        
         verify(ramaArtesanalRepository).deleteById(1L);
     }
+
+    @Test
+    void testFindAllError() {
+        when(ramaArtesanalRepository.findAll(any(Pageable.class))).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> ramaArtesanalService.findAll(PageRequest.of(0, 10)));
+    }
+
+    @Test
+    void testFindByIdError() {
+        when(ramaArtesanalRepository.findById(1L)).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> ramaArtesanalService.findById(1L));
+    }
+
+    @Test
+    void testSaveError() {
+        when(ramaArtesanalRepository.save(any())).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> ramaArtesanalService.save(rama));
+    }
+
+    @Test
+    void testDeleteError() {
+        doThrow(new RuntimeException("Error")).when(ramaArtesanalRepository).deleteById(1L);
+        assertThrows(RuntimeException.class, () -> ramaArtesanalService.delete(1L));
+    }
+
+    @Test
+    @SuppressWarnings("null")
+    void testBuscarPorNombre() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<RamaArtesanal> page = new PageImpl<>(Arrays.asList(rama));
+        when(ramaArtesanalRepository.buscarPorNombre("TEST", pageable)).thenReturn(page);
+        Page<RamaArtesanal> result = ramaArtesanalService.buscarPorNombre("TEST", pageable);
+        assertNotNull(result);
+        assertEquals(1, result.getContent().size());
+    }
+
+    @Test
+    void testBuscarPorNombreError() {
+        when(ramaArtesanalRepository.buscarPorNombre(anyString(), any(Pageable.class))).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> ramaArtesanalService.buscarPorNombre("TEST", PageRequest.of(0, 10)));
+    }
 }
+

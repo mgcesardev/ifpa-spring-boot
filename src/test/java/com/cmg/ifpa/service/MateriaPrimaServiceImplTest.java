@@ -2,6 +2,7 @@ package com.cmg.ifpa.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class MateriaPrimaServiceImplTest {
     void testFindAll() {
         Pageable pageable = PageRequest.of(0, 10);
         Page<MateriaPrima> page = new PageImpl<>(Arrays.asList(materia));
-        when(materiaPrimaRepository.findAll(pageable)).thenReturn(page);
+        when(materiaPrimaRepository.findAll(any(Pageable.class))).thenReturn(page);
         
         Page<MateriaPrima> result = materiaPrimaService.findAll(pageable);
         
@@ -79,9 +80,49 @@ public class MateriaPrimaServiceImplTest {
     @Test
     void testDelete() {
         doNothing().when(materiaPrimaRepository).deleteById(1L);
-        
         materiaPrimaService.delete(1L);
-        
         verify(materiaPrimaRepository).deleteById(1L);
     }
+
+    @Test
+    void testFindAllError() {
+        when(materiaPrimaRepository.findAll(any(Pageable.class))).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> materiaPrimaService.findAll(PageRequest.of(0, 10)));
+    }
+
+    @Test
+    void testFindByIdError() {
+        when(materiaPrimaRepository.findById(1L)).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> materiaPrimaService.findById(1L));
+    }
+
+    @Test
+    void testSaveError() {
+        when(materiaPrimaRepository.save(any())).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> materiaPrimaService.save(materia));
+    }
+
+    @Test
+    void testDeleteError() {
+        doThrow(new RuntimeException("Error")).when(materiaPrimaRepository).deleteById(1L);
+        assertThrows(RuntimeException.class, () -> materiaPrimaService.delete(1L));
+    }
+
+    @Test
+    @SuppressWarnings("null")
+    void testBuscarPorNombre() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<MateriaPrima> page = new PageImpl<>(Arrays.asList(materia));
+        when(materiaPrimaRepository.buscarPorNombre("TEST", pageable)).thenReturn(page);
+        Page<MateriaPrima> result = materiaPrimaService.buscarPorNombre("TEST", pageable);
+        assertNotNull(result);
+        assertEquals(1, result.getContent().size());
+    }
+
+    @Test
+    void testBuscarPorNombreError() {
+        when(materiaPrimaRepository.buscarPorNombre(anyString(), any(Pageable.class))).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> materiaPrimaService.buscarPorNombre("TEST", PageRequest.of(0, 10)));
+    }
 }
+

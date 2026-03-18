@@ -52,7 +52,8 @@ public class CredentialService {
             String rama = (artesano.getRamaArtesanal() != null) ? artesano.getRamaArtesanal().getNombreRama() : "";
             
             String tipoInscripcion = artesano.getGrupoPertenencia() != null ? artesano.getGrupoPertenencia() : "INDEPENDIENTE";
-            String idOrganizacion = (artesano.getOrganizacion() != null) ? artesano.getOrganizacion().getIdOrganizacion().toString() : "";
+            String idOrganizacion = (artesano.getOrganizacion() != null && artesano.getOrganizacion().getIdOrganizacion() != null) 
+                                    ? artesano.getOrganizacion().getIdOrganizacion().toString() : "";
             String domicilio = (artesano.getCalle() != null ? artesano.getCalle() : "") + " " +
                                (artesano.getNumeroExterior() != null ? artesano.getNumeroExterior() : "");
             String localidad = (artesano.getLocalidad() != null) ? artesano.getLocalidad().getLocalidad() : "";

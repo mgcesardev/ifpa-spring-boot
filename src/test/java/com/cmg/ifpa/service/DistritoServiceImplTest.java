@@ -2,6 +2,7 @@ package com.cmg.ifpa.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class DistritoServiceImplTest {
     void testFindAll() {
         Pageable pageable = PageRequest.of(0, 10);
         Page<Distrito> page = new PageImpl<>(Arrays.asList(distrito));
-        when(distritoRepository.findAll(pageable)).thenReturn(page);
+        when(distritoRepository.findAll(any(Pageable.class))).thenReturn(page);
         
         Page<Distrito> result = distritoService.findAll(pageable);
         
@@ -79,9 +80,49 @@ public class DistritoServiceImplTest {
     @Test
     void testDelete() {
         doNothing().when(distritoRepository).deleteById(1L);
-        
         distritoService.delete(1L);
-        
         verify(distritoRepository).deleteById(1L);
     }
+
+    @Test
+    void testFindAllError() {
+        when(distritoRepository.findAll(any(Pageable.class))).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> distritoService.findAll(PageRequest.of(0, 10)));
+    }
+
+    @Test
+    void testFindByIdError() {
+        when(distritoRepository.findById(1L)).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> distritoService.findById(1L));
+    }
+
+    @Test
+    void testSaveError() {
+        when(distritoRepository.save(any())).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> distritoService.save(distrito));
+    }
+
+    @Test
+    void testDeleteError() {
+        doThrow(new RuntimeException("Error")).when(distritoRepository).deleteById(1L);
+        assertThrows(RuntimeException.class, () -> distritoService.delete(1L));
+    }
+
+    @Test
+    @SuppressWarnings("null")
+    void testBuscarPorNombre() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Distrito> page = new PageImpl<>(Arrays.asList(distrito));
+        when(distritoRepository.buscarPorNombre("TEST", pageable)).thenReturn(page);
+        Page<Distrito> result = distritoService.buscarPorNombre("TEST", pageable);
+        assertNotNull(result);
+        assertEquals(1, result.getContent().size());
+    }
+
+    @Test
+    void testBuscarPorNombreError() {
+        when(distritoRepository.buscarPorNombre(anyString(), any(Pageable.class))).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> distritoService.buscarPorNombre("TEST", PageRequest.of(0, 10)));
+    }
 }
+

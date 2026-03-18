@@ -2,6 +2,7 @@ package com.cmg.ifpa.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class LenguaIndigenaServiceImplTest {
     void testFindAll() {
         Pageable pageable = PageRequest.of(0, 10);
         Page<LenguaIndigena> page = new PageImpl<>(Arrays.asList(lengua));
-        when(lenguaIndigenaRepository.findAll(pageable)).thenReturn(page);
+        when(lenguaIndigenaRepository.findAll(any(Pageable.class))).thenReturn(page);
         
         Page<LenguaIndigena> result = lenguaIndigenaService.findAll(pageable);
         
@@ -79,9 +80,49 @@ public class LenguaIndigenaServiceImplTest {
     @Test
     void testDelete() {
         doNothing().when(lenguaIndigenaRepository).deleteById(1L);
-        
         lenguaIndigenaService.delete(1L);
-        
         verify(lenguaIndigenaRepository).deleteById(1L);
     }
+
+    @Test
+    void testFindAllError() {
+        when(lenguaIndigenaRepository.findAll(any(Pageable.class))).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> lenguaIndigenaService.findAll(PageRequest.of(0, 10)));
+    }
+
+    @Test
+    void testFindByIdError() {
+        when(lenguaIndigenaRepository.findById(1L)).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> lenguaIndigenaService.findById(1L));
+    }
+
+    @Test
+    void testSaveError() {
+        when(lenguaIndigenaRepository.save(any())).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> lenguaIndigenaService.save(lengua));
+    }
+
+    @Test
+    void testDeleteError() {
+        doThrow(new RuntimeException("Error")).when(lenguaIndigenaRepository).deleteById(1L);
+        assertThrows(RuntimeException.class, () -> lenguaIndigenaService.delete(1L));
+    }
+
+    @Test
+    @SuppressWarnings("null")
+    void testBuscarPorNombre() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<LenguaIndigena> page = new PageImpl<>(Arrays.asList(lengua));
+        when(lenguaIndigenaRepository.buscarPorNombre("TEST", pageable)).thenReturn(page);
+        Page<LenguaIndigena> result = lenguaIndigenaService.buscarPorNombre("TEST", pageable);
+        assertNotNull(result);
+        assertEquals(1, result.getContent().size());
+    }
+
+    @Test
+    void testBuscarPorNombreError() {
+        when(lenguaIndigenaRepository.buscarPorNombre(anyString(), any(Pageable.class))).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> lenguaIndigenaService.buscarPorNombre("TEST", PageRequest.of(0, 10)));
+    }
 }
+

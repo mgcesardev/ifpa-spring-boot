@@ -135,4 +135,12 @@ public class ArtesanoControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.content[0].nombre").value("Juan"));
     }
+
+    @Test
+    void testGetCredencialNotFound() throws Exception {
+        when(artesanoService.findById(1L)).thenReturn(null);
+        
+        mockMvc.perform(get("/artesanos/credencial/1"))
+                .andExpect(status().isNotFound());
+    }
 }

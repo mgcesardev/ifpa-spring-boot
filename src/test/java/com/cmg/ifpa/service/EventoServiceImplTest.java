@@ -2,6 +2,7 @@ package com.cmg.ifpa.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class EventoServiceImplTest {
     void testFindAll() {
         Pageable pageable = PageRequest.of(0, 10);
         Page<Evento> page = new PageImpl<>(Arrays.asList(evento));
-        when(eventoRepository.findAll(pageable)).thenReturn(page);
+        when(eventoRepository.findAll(any(Pageable.class))).thenReturn(page);
         
         Page<Evento> result = eventoService.findAll(pageable);
         
@@ -79,9 +80,49 @@ public class EventoServiceImplTest {
     @Test
     void testDelete() {
         doNothing().when(eventoRepository).deleteById(1L);
-        
         eventoService.delete(1L);
-        
         verify(eventoRepository).deleteById(1L);
     }
+
+    @Test
+    void testFindAllError() {
+        when(eventoRepository.findAll(any(Pageable.class))).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> eventoService.findAll(PageRequest.of(0, 10)));
+    }
+
+    @Test
+    void testFindByIdError() {
+        when(eventoRepository.findById(1L)).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> eventoService.findById(1L));
+    }
+
+    @Test
+    void testSaveError() {
+        when(eventoRepository.save(any())).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> eventoService.save(evento));
+    }
+
+    @Test
+    void testDeleteError() {
+        doThrow(new RuntimeException("Error")).when(eventoRepository).deleteById(1L);
+        assertThrows(RuntimeException.class, () -> eventoService.delete(1L));
+    }
+
+    @Test
+    @SuppressWarnings("null")
+    void testBuscarPorNombre() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Evento> page = new PageImpl<>(Arrays.asList(evento));
+        when(eventoRepository.buscarPorNombre("TEST", pageable)).thenReturn(page);
+        Page<Evento> result = eventoService.buscarPorNombre("TEST", pageable);
+        assertNotNull(result);
+        assertEquals(1, result.getContent().size());
+    }
+
+    @Test
+    void testBuscarPorNombreError() {
+        when(eventoRepository.buscarPorNombre(anyString(), any(Pageable.class))).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> eventoService.buscarPorNombre("TEST", PageRequest.of(0, 10)));
+    }
 }
+

@@ -2,6 +2,7 @@ package com.cmg.ifpa.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class TrimestreCapacitacionServiceImplTest {
     void testFindAll() {
         Pageable pageable = PageRequest.of(0, 10);
         Page<TrimestreCapacitacion> page = new PageImpl<>(Arrays.asList(trimestre));
-        when(trimestreCapacitacionRepository.findAll(pageable)).thenReturn(page);
+        when(trimestreCapacitacionRepository.findAll(any(Pageable.class))).thenReturn(page);
         
         Page<TrimestreCapacitacion> result = trimestreCapacitacionService.findAll(pageable);
         
@@ -79,9 +80,49 @@ public class TrimestreCapacitacionServiceImplTest {
     @Test
     void testDelete() {
         doNothing().when(trimestreCapacitacionRepository).deleteById(1L);
-        
         trimestreCapacitacionService.delete(1L);
-        
         verify(trimestreCapacitacionRepository).deleteById(1L);
     }
+
+    @Test
+    void testFindAllError() {
+        when(trimestreCapacitacionRepository.findAll(any(Pageable.class))).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> trimestreCapacitacionService.findAll(PageRequest.of(0, 10)));
+    }
+
+    @Test
+    void testFindByIdError() {
+        when(trimestreCapacitacionRepository.findById(1L)).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> trimestreCapacitacionService.findById(1L));
+    }
+
+    @Test
+    void testSaveError() {
+        when(trimestreCapacitacionRepository.save(any())).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> trimestreCapacitacionService.save(trimestre));
+    }
+
+    @Test
+    void testDeleteError() {
+        doThrow(new RuntimeException("Error")).when(trimestreCapacitacionRepository).deleteById(1L);
+        assertThrows(RuntimeException.class, () -> trimestreCapacitacionService.delete(1L));
+    }
+
+    @Test
+    @SuppressWarnings("null")
+    void testBuscarPorNombre() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<TrimestreCapacitacion> page = new PageImpl<>(Arrays.asList(trimestre));
+        when(trimestreCapacitacionRepository.buscarPorNombre("Enero", pageable)).thenReturn(page);
+        Page<TrimestreCapacitacion> result = trimestreCapacitacionService.buscarPorNombre("Enero", pageable);
+        assertNotNull(result);
+        assertEquals(1, result.getContent().size());
+    }
+
+    @Test
+    void testBuscarPorNombreError() {
+        when(trimestreCapacitacionRepository.buscarPorNombre(anyString(), any(Pageable.class))).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> trimestreCapacitacionService.buscarPorNombre("Enero", PageRequest.of(0, 10)));
+    }
 }
+

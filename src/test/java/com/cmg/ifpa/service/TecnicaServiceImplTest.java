@@ -2,6 +2,7 @@ package com.cmg.ifpa.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class TecnicaServiceImplTest {
     void testFindAll() {
         Pageable pageable = PageRequest.of(0, 10);
         Page<Tecnica> page = new PageImpl<>(Arrays.asList(tecnica));
-        when(tecnicaRepository.findAll(pageable)).thenReturn(page);
+        when(tecnicaRepository.findAll(any(Pageable.class))).thenReturn(page);
         
         Page<Tecnica> result = tecnicaService.findAll(pageable);
         
@@ -79,9 +80,49 @@ public class TecnicaServiceImplTest {
     @Test
     void testDelete() {
         doNothing().when(tecnicaRepository).deleteById(1L);
-        
         tecnicaService.delete(1L);
-        
         verify(tecnicaRepository).deleteById(1L);
     }
+
+    @Test
+    void testFindAllError() {
+        when(tecnicaRepository.findAll(any(Pageable.class))).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> tecnicaService.findAll(PageRequest.of(0, 10)));
+    }
+
+    @Test
+    void testFindByIdError() {
+        when(tecnicaRepository.findById(1L)).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> tecnicaService.findById(1L));
+    }
+
+    @Test
+    void testSaveError() {
+        when(tecnicaRepository.save(any())).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> tecnicaService.save(tecnica));
+    }
+
+    @Test
+    void testDeleteError() {
+        doThrow(new RuntimeException("Error")).when(tecnicaRepository).deleteById(1L);
+        assertThrows(RuntimeException.class, () -> tecnicaService.delete(1L));
+    }
+
+    @Test
+    @SuppressWarnings("null")
+    void testBuscarPorNombre() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Tecnica> page = new PageImpl<>(Arrays.asList(tecnica));
+        when(tecnicaRepository.buscarPorNombre("TEST", pageable)).thenReturn(page);
+        Page<Tecnica> result = tecnicaService.buscarPorNombre("TEST", pageable);
+        assertNotNull(result);
+        assertEquals(1, result.getContent().size());
+    }
+
+    @Test
+    void testBuscarPorNombreError() {
+        when(tecnicaRepository.buscarPorNombre(anyString(), any(Pageable.class))).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> tecnicaService.buscarPorNombre("TEST", PageRequest.of(0, 10)));
+    }
 }
+
