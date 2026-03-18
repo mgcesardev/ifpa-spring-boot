@@ -2,6 +2,7 @@ package com.cmg.ifpa.service;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 
 import java.util.Optional;
@@ -44,7 +45,7 @@ public class GrupoEtnicoServiceImplTest {
     void testFindAll() {
         Pageable pageable = PageRequest.of(0, 10);
         Page<GrupoEtnico> page = new PageImpl<>(Arrays.asList(grupo));
-        when(grupoEtnicoRepository.findAll(pageable)).thenReturn(page);
+        when(grupoEtnicoRepository.findAll(any(Pageable.class))).thenReturn(page);
         
         Page<GrupoEtnico> result = grupoEtnicoService.findAll(pageable);
         
@@ -79,9 +80,49 @@ public class GrupoEtnicoServiceImplTest {
     @Test
     void testDelete() {
         doNothing().when(grupoEtnicoRepository).deleteById(1L);
-        
         grupoEtnicoService.delete(1L);
-        
         verify(grupoEtnicoRepository).deleteById(1L);
     }
+
+    @Test
+    void testFindAllError() {
+        when(grupoEtnicoRepository.findAll(any(Pageable.class))).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> grupoEtnicoService.findAll(PageRequest.of(0, 10)));
+    }
+
+    @Test
+    void testFindByIdError() {
+        when(grupoEtnicoRepository.findById(1L)).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> grupoEtnicoService.findById(1L));
+    }
+
+    @Test
+    void testSaveError() {
+        when(grupoEtnicoRepository.save(any())).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> grupoEtnicoService.save(grupo));
+    }
+
+    @Test
+    void testDeleteError() {
+        doThrow(new RuntimeException("Error")).when(grupoEtnicoRepository).deleteById(1L);
+        assertThrows(RuntimeException.class, () -> grupoEtnicoService.delete(1L));
+    }
+
+    @Test
+    @SuppressWarnings("null")
+    void testBuscarPorNombre() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<GrupoEtnico> page = new PageImpl<>(Arrays.asList(grupo));
+        when(grupoEtnicoRepository.buscarPorNombre("TEST", pageable)).thenReturn(page);
+        Page<GrupoEtnico> result = grupoEtnicoService.buscarPorNombre("TEST", pageable);
+        assertNotNull(result);
+        assertEquals(1, result.getContent().size());
+    }
+
+    @Test
+    void testBuscarPorNombreError() {
+        when(grupoEtnicoRepository.buscarPorNombre(anyString(), any(Pageable.class))).thenThrow(new RuntimeException("Error"));
+        assertThrows(RuntimeException.class, () -> grupoEtnicoService.buscarPorNombre("TEST", PageRequest.of(0, 10)));
+    }
 }
+

@@ -73,4 +73,19 @@ public class AuthControllerTest {
                 .content(objectMapper.writeValueAsString(authRequest)))
                 .andExpect(status().isUnauthorized());
     }
+
+    @Test
+    @SuppressWarnings("null")
+    void testLoginInactiveUser() throws Exception {
+        usuario.setEstatus("I"); // Inactive
+        List<Usuario> usuarios = List.of(usuario);
+        when(usuarioRepository.findAll()).thenReturn(usuarios);
+        authRequest.setCorreoElectronico("test@example.com");
+        authRequest.setContrasena("password");
+
+        mockMvc.perform(post("/auth/login")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(authRequest)))
+                .andExpect(status().isUnauthorized());
+    }
 }

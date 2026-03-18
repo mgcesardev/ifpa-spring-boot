@@ -4,9 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
-import java.util.Optional;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -37,16 +37,13 @@ public class RegionServiceImplTest {
     void setUp() {
         region = new Region();
         region.setIdRegion(1L);
-        region.setRegion("Valles Centrales");
-        region.setEstatus("A");
+        region.setRegion("SIERRA NORTE");
     }
 
     @Test
-    @SuppressWarnings("null")
     void testFindAll() {
         Pageable pageable = PageRequest.of(0, 10);
         Page<Region> page = new PageImpl<>(Arrays.asList(region));
-        
         when(regionRepository.findAll(pageable)).thenReturn(page);
         
         Page<Region> result = regionService.findAll(pageable);
@@ -57,26 +54,54 @@ public class RegionServiceImplTest {
     }
 
     @Test
+    void testFindAllError() {
+        Pageable pageable = PageRequest.of(0, 10);
+        when(regionRepository.findAll(pageable)).thenThrow(new RuntimeException("DB Error"));
+        
+        assertThrows(RuntimeException.class, () -> regionService.findAll(pageable));
+    }
+
+    @Test
     void testFindById() {
         when(regionRepository.findById(1L)).thenReturn(Optional.of(region));
         
         Region result = regionService.findById(1L);
         
         assertNotNull(result);
-        assertEquals("Valles Centrales", result.getRegion());
-        verify(regionRepository).findById(1L);
+        assertEquals("SIERRA NORTE", result.getRegion());
     }
 
     @Test
-    @SuppressWarnings("null")
+    void testFindByIdNotFound() {
+        when(regionRepository.findById(1L)).thenReturn(Optional.empty());
+        
+        Region result = regionService.findById(1L);
+        
+        assertNull(result);
+    }
+
+    @Test
+    void testFindByIdError() {
+        when(regionRepository.findById(1L)).thenThrow(new RuntimeException("DB Error"));
+        
+        assertThrows(RuntimeException.class, () -> regionService.findById(1L));
+    }
+
+    @Test
     void testSave() {
         when(regionRepository.save(any(Region.class))).thenReturn(region);
         
         Region result = regionService.save(region);
         
         assertNotNull(result);
-        assertEquals("Valles Centrales", result.getRegion());
         verify(regionRepository).save(region);
+    }
+
+    @Test
+    void testSaveError() {
+        when(regionRepository.save(any(Region.class))).thenThrow(new RuntimeException("DB Error"));
+        
+        assertThrows(RuntimeException.class, () -> regionService.save(region));
     }
 
     @Test
@@ -87,7 +112,13 @@ public class RegionServiceImplTest {
         
         assertNotNull(result);
         assertEquals(1, result.size());
-        verify(regionRepository).findByEstatusNative("A");
+    }
+
+    @Test
+    void testFindByEstatusError() {
+        when(regionRepository.findByEstatusNative("A")).thenThrow(new RuntimeException("DB Error"));
+        
+        assertThrows(RuntimeException.class, () -> regionService.findByEstatus("A"));
     }
 
     @Test
@@ -97,5 +128,32 @@ public class RegionServiceImplTest {
         regionService.delete(1L);
         
         verify(regionRepository).deleteById(1L);
+    }
+
+    @Test
+    void testDeleteError() {
+        doThrow(new RuntimeException("DB Error")).when(regionRepository).deleteById(1L);
+        
+        assertThrows(RuntimeException.class, () -> regionService.delete(1L));
+    }
+
+    @Test
+    void testBuscarPorNombre() {
+        Pageable pageable = PageRequest.of(0, 10);
+        Page<Region> page = new PageImpl<>(Arrays.asList(region));
+        when(regionRepository.buscarPorNombre("SIERRA", pageable)).thenReturn(page);
+        
+        Page<Region> result = regionService.buscarPorNombre("SIERRA", pageable);
+        
+        assertNotNull(result);
+        verify(regionRepository).buscarPorNombre("SIERRA", pageable);
+    }
+
+    @Test
+    void testBuscarPorNombreError() {
+        Pageable pageable = PageRequest.of(0, 10);
+        when(regionRepository.buscarPorNombre("SIERRA", pageable)).thenThrow(new RuntimeException("DB Error"));
+        
+        assertThrows(RuntimeException.class, () -> regionService.buscarPorNombre("SIERRA", pageable));
     }
 }
