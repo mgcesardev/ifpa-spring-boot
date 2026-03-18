@@ -26,7 +26,8 @@ public class TipoCompradorSeeder implements CommandLineRunner {
         seedTiposComprador();
     }
 
-    private void seedTiposComprador() {
+    @SuppressWarnings("null")
+private void seedTiposComprador() {
         if (tipoCompradorRepository.count() == 0) {
             log.info("Seeding initial tipos de comprador...");
 

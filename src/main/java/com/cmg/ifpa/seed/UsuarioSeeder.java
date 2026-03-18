@@ -26,7 +26,8 @@ public class UsuarioSeeder implements CommandLineRunner {
         seedUsuarios();
     }
 
-    private void seedUsuarios() {
+    @SuppressWarnings("null")
+private void seedUsuarios() {
         if (usuarioRepository.count() == 0) {
             log.info("Seeding initial usuarios...");
 

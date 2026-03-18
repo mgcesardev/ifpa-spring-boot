@@ -26,6 +26,7 @@ public class LocalidadSeeder implements CommandLineRunner {
         seedLocalidades();
     }
 
+    @SuppressWarnings("null")
     private void seedLocalidades() {
         if (localidadRepository.count() == 0) {
             log.info("Seeding initial localidades...");

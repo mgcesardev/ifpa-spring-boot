@@ -26,6 +26,7 @@ public class GrupoEtnicoSeeder implements CommandLineRunner {
         seedGruposEtnicos();
     }
 
+    @SuppressWarnings("null")
     private void seedGruposEtnicos() {
         if (grupoEtnicoRepository.count() == 0) {
             log.info("Seeding initial grupos étnicos...");

@@ -26,6 +26,7 @@ public class OrganizacionSeeder implements CommandLineRunner {
         seedOrganizaciones();
     }
 
+    @SuppressWarnings("null")
     private void seedOrganizaciones() {
         if (organizacionRepository.count() == 0) {
             log.info("Seeding initial organizaciones...");

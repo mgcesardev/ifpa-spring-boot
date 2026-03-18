@@ -26,6 +26,7 @@ public class DistritoSeeder implements CommandLineRunner {
         seedDistritos();
     }
 
+    @SuppressWarnings("null")
     private void seedDistritos() {
         if (distritoRepository.count() == 0) {
             log.info("Seeding initial distritos...");

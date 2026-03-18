@@ -26,7 +26,8 @@ public class RamaArtesanalSeeder implements CommandLineRunner {
         seedRamasArtesanales();
     }
 
-    private void seedRamasArtesanales() {
+    @SuppressWarnings("null")
+private void seedRamasArtesanales() {
         if (ramaArtesanalRepository.count() == 0) {
             log.info("Seeding initial ramas artesanales...");
 

@@ -26,6 +26,7 @@ public class MunicipioSeeder implements CommandLineRunner {
         seedMunicipios();
     }
 
+    @SuppressWarnings("null")
     private void seedMunicipios() {
         if (municipioRepository.count() == 0) {
             log.info("Seeding initial municipios...");

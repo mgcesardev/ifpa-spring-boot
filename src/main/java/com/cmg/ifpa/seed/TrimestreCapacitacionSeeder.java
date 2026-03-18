@@ -26,7 +26,8 @@ public class TrimestreCapacitacionSeeder implements CommandLineRunner {
         seedTrimestres();
     }
 
-    private void seedTrimestres() {
+    @SuppressWarnings("null")
+private void seedTrimestres() {
         if (trimestreCapacitacionRepository.count() == 0) {
             log.info("Seeding initial trimestres de capacitación...");
 

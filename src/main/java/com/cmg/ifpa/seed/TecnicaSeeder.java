@@ -30,7 +30,8 @@ public class TecnicaSeeder implements CommandLineRunner {
         seedTecnicas();
     }
 
-    private void seedTecnicas() {
+    @SuppressWarnings("null")
+private void seedTecnicas() {
         if (tecnicaRepository.count() == 0) {
             log.info("Seeding initial técnicas...");
 

@@ -26,6 +26,7 @@ public class MateriaPrimaSeeder implements CommandLineRunner {
         seedMateriasPrimas();
     }
 
+    @SuppressWarnings("null")
     private void seedMateriasPrimas() {
         if (materiaPrimaRepository.count() == 0) {
             log.info("Seeding initial materias primas...");

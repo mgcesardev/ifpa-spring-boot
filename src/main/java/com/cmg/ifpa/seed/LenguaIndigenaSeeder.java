@@ -26,6 +26,7 @@ public class LenguaIndigenaSeeder implements CommandLineRunner {
         seedLenguasIndigenas();
     }
 
+    @SuppressWarnings("null")
     private void seedLenguasIndigenas() {
         if (lenguaIndigenaRepository.count() == 0) {
             log.info("Seeding initial lenguas indígenas...");

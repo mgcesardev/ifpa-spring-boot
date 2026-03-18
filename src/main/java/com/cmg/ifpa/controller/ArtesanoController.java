@@ -59,6 +59,7 @@ public class ArtesanoController {
     public ResponseEntity<Resource> exportExcel(@RequestParam(required = false) String estatus) {
         String filename = "artesanos.xlsx";
         ByteArrayInputStream in = artesanoService.exportToExcel(estatus);
+        @SuppressWarnings("null")
         InputStreamResource file = new InputStreamResource(in);
 
         return ResponseEntity.ok()
@@ -82,6 +83,7 @@ public class ArtesanoController {
         artesanoService.delete(id);
     }
 
+    @SuppressWarnings("null")
     @GetMapping("/credencial/{id}")
     public ResponseEntity<byte[]> getCredencial(@PathVariable Long id) {
         Artesano artesano = artesanoService.findById(id);

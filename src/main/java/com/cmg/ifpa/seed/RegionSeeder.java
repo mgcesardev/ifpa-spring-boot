@@ -26,6 +26,7 @@ public class RegionSeeder implements CommandLineRunner {
         seedRegions();
     }
 
+    @SuppressWarnings("null")
     private void seedRegions() {
         if (regionRepository.count() == 0) {
             log.info("Seeding initial regions...");
