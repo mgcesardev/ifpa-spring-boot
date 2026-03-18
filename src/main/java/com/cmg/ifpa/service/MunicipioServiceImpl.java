@@ -18,6 +18,7 @@ public class MunicipioServiceImpl implements MunicipioService {
         this.municipioRepository = municipioRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<Municipio> findAll(Pageable pageable) {
@@ -28,6 +29,7 @@ public class MunicipioServiceImpl implements MunicipioService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Municipio findById(Long id) {
@@ -38,6 +40,7 @@ public class MunicipioServiceImpl implements MunicipioService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public Municipio save(Municipio model) {
         try {
@@ -47,6 +50,7 @@ public class MunicipioServiceImpl implements MunicipioService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

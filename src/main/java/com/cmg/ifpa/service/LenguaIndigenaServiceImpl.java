@@ -18,6 +18,7 @@ public class LenguaIndigenaServiceImpl implements LenguaIndigenaService {
         this.lenguaIndigenaRepository = lenguaIndigenaRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<LenguaIndigena> findAll(Pageable pageable) {
@@ -28,6 +29,7 @@ public class LenguaIndigenaServiceImpl implements LenguaIndigenaService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public LenguaIndigena findById(Long id) {
@@ -38,6 +40,7 @@ public class LenguaIndigenaServiceImpl implements LenguaIndigenaService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public LenguaIndigena save(LenguaIndigena model) {
         try {
@@ -47,6 +50,7 @@ public class LenguaIndigenaServiceImpl implements LenguaIndigenaService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

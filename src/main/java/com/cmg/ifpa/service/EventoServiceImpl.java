@@ -18,6 +18,7 @@ public class EventoServiceImpl implements EventoService {
         this.eventoRepository = eventoRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<Evento> findAll(Pageable pageable) {
@@ -28,6 +29,7 @@ public class EventoServiceImpl implements EventoService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Evento findById(Long id) {
@@ -38,6 +40,7 @@ public class EventoServiceImpl implements EventoService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public Evento save(Evento model) {
         try {
@@ -47,6 +50,7 @@ public class EventoServiceImpl implements EventoService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

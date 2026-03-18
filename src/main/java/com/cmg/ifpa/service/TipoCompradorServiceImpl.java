@@ -18,6 +18,7 @@ public class TipoCompradorServiceImpl implements TipoCompradorService {
         this.tipoCompradorRepository = tipoCompradorRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<TipoComprador> findAll(Pageable pageable) {
@@ -28,6 +29,7 @@ public class TipoCompradorServiceImpl implements TipoCompradorService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public TipoComprador findById(Long id) {
@@ -38,6 +40,7 @@ public class TipoCompradorServiceImpl implements TipoCompradorService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public TipoComprador save(TipoComprador model) {
         try {
@@ -47,6 +50,7 @@ public class TipoCompradorServiceImpl implements TipoCompradorService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

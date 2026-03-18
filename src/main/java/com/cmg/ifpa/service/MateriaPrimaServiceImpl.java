@@ -18,6 +18,7 @@ public class MateriaPrimaServiceImpl implements MateriaPrimaService {
         this.materiaPrimaRepository = materiaPrimaRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<MateriaPrima> findAll(Pageable pageable) {
@@ -28,6 +29,7 @@ public class MateriaPrimaServiceImpl implements MateriaPrimaService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public MateriaPrima findById(Long id) {
@@ -38,6 +40,7 @@ public class MateriaPrimaServiceImpl implements MateriaPrimaService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public MateriaPrima save(MateriaPrima model) {
         try {
@@ -47,6 +50,7 @@ public class MateriaPrimaServiceImpl implements MateriaPrimaService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

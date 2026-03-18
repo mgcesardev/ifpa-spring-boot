@@ -18,6 +18,7 @@ public class DistritoServiceImpl implements DistritoService {
         this.distritoRepository = distritoRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<Distrito> findAll(Pageable pageable) {
@@ -28,6 +29,7 @@ public class DistritoServiceImpl implements DistritoService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Distrito findById(Long id) {
@@ -38,6 +40,7 @@ public class DistritoServiceImpl implements DistritoService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public Distrito save(Distrito model) {
         try {
@@ -47,6 +50,7 @@ public class DistritoServiceImpl implements DistritoService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

@@ -46,6 +46,7 @@ public class ArtesanoServiceImpl implements ArtesanoService {
         this.tecnicaRepository = tecnicaRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<Artesano> findAll(String estatus, Pageable pageable) {
@@ -72,6 +73,7 @@ public class ArtesanoServiceImpl implements ArtesanoService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Artesano findById(Long id) {
@@ -82,6 +84,7 @@ public class ArtesanoServiceImpl implements ArtesanoService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public Artesano save(Artesano artesano) {
         try {
@@ -91,6 +94,7 @@ public class ArtesanoServiceImpl implements ArtesanoService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

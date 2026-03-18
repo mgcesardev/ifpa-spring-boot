@@ -18,6 +18,7 @@ public class ProgramaCapacitacionServiceImpl implements ProgramaCapacitacionServ
         this.programaCapacitacionRepository = programaCapacitacionRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<ProgramaCapacitacion> findAll(Pageable pageable) {
@@ -28,6 +29,7 @@ public class ProgramaCapacitacionServiceImpl implements ProgramaCapacitacionServ
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public ProgramaCapacitacion findById(Long id) {
@@ -39,6 +41,7 @@ public class ProgramaCapacitacionServiceImpl implements ProgramaCapacitacionServ
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public ProgramaCapacitacion save(ProgramaCapacitacion model) {
         try {
@@ -48,6 +51,7 @@ public class ProgramaCapacitacionServiceImpl implements ProgramaCapacitacionServ
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

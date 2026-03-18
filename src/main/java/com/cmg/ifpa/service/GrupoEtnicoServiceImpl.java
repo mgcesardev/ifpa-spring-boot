@@ -18,6 +18,7 @@ public class GrupoEtnicoServiceImpl implements GrupoEtnicoService {
         this.grupoEtnicoRepository = grupoEtnicoRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<GrupoEtnico> findAll(Pageable pageable) {
@@ -28,6 +29,7 @@ public class GrupoEtnicoServiceImpl implements GrupoEtnicoService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public GrupoEtnico findById(Long id) {
@@ -38,6 +40,7 @@ public class GrupoEtnicoServiceImpl implements GrupoEtnicoService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public GrupoEtnico save(GrupoEtnico model) {
         try {
@@ -47,6 +50,7 @@ public class GrupoEtnicoServiceImpl implements GrupoEtnicoService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

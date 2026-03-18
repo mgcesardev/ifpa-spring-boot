@@ -18,6 +18,7 @@ public class TecnicaServiceImpl implements TecnicaService {
         this.tecnicaRepository = tecnicaRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<Tecnica> findAll(Pageable pageable) {
@@ -28,6 +29,7 @@ public class TecnicaServiceImpl implements TecnicaService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Tecnica findById(Long id) {
@@ -38,6 +40,7 @@ public class TecnicaServiceImpl implements TecnicaService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public Tecnica save(Tecnica model) {
         try {
@@ -47,6 +50,7 @@ public class TecnicaServiceImpl implements TecnicaService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

@@ -19,6 +19,7 @@ public class RegionServiceImpl implements RegionService {
         this.regionRepository = regionRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<Region> findAll(Pageable pageable) {
@@ -29,6 +30,7 @@ public class RegionServiceImpl implements RegionService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Region findById(Long id) {
@@ -39,6 +41,7 @@ public class RegionServiceImpl implements RegionService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public Region save(Region model) {
         try {
@@ -57,6 +60,7 @@ public class RegionServiceImpl implements RegionService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

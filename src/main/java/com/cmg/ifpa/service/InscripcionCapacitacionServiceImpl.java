@@ -18,6 +18,7 @@ public class InscripcionCapacitacionServiceImpl implements InscripcionCapacitaci
         this.inscripcionCapacitacionRepository = inscripcionCapacitacionRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<InscripcionCapacitacion> findAll(Pageable pageable) {
@@ -28,6 +29,7 @@ public class InscripcionCapacitacionServiceImpl implements InscripcionCapacitaci
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public InscripcionCapacitacion findById(Long id) {
@@ -39,6 +41,7 @@ public class InscripcionCapacitacionServiceImpl implements InscripcionCapacitaci
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public InscripcionCapacitacion save(InscripcionCapacitacion model) {
         try {
@@ -48,6 +51,7 @@ public class InscripcionCapacitacionServiceImpl implements InscripcionCapacitaci
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

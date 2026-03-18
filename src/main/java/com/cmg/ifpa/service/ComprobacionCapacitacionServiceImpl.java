@@ -18,6 +18,7 @@ public class ComprobacionCapacitacionServiceImpl implements ComprobacionCapacita
         this.comprobacionCapacitacionRepository = comprobacionCapacitacionRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<ComprobacionCapacitacion> findAll(Pageable pageable) {
@@ -28,6 +29,7 @@ public class ComprobacionCapacitacionServiceImpl implements ComprobacionCapacita
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public ComprobacionCapacitacion findById(Long id) {
@@ -39,6 +41,7 @@ public class ComprobacionCapacitacionServiceImpl implements ComprobacionCapacita
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public ComprobacionCapacitacion save(ComprobacionCapacitacion model) {
         try {
@@ -48,6 +51,7 @@ public class ComprobacionCapacitacionServiceImpl implements ComprobacionCapacita
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

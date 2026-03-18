@@ -18,6 +18,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<Usuario> findAll(Pageable pageable) {
@@ -28,6 +29,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Usuario findById(Long id) {
@@ -38,6 +40,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public Usuario save(Usuario model) {
         try {
@@ -47,6 +50,7 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

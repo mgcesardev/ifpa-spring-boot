@@ -18,6 +18,7 @@ public class AccionCapacitacionServiceImpl implements AccionCapacitacionService 
         this.accionCapacitacionRepository = accionCapacitacionRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<AccionCapacitacion> findAll(Pageable pageable) {
@@ -28,6 +29,7 @@ public class AccionCapacitacionServiceImpl implements AccionCapacitacionService 
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public AccionCapacitacion findById(Long id) {
@@ -39,6 +41,7 @@ public class AccionCapacitacionServiceImpl implements AccionCapacitacionService 
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public AccionCapacitacion save(AccionCapacitacion model) {
         try {
@@ -48,6 +51,7 @@ public class AccionCapacitacionServiceImpl implements AccionCapacitacionService 
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

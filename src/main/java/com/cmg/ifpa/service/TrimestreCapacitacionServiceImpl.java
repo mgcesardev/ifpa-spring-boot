@@ -18,6 +18,7 @@ public class TrimestreCapacitacionServiceImpl implements TrimestreCapacitacionSe
         this.trimestreCapacitacionRepository = trimestreCapacitacionRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<TrimestreCapacitacion> findAll(Pageable pageable) {
@@ -28,6 +29,7 @@ public class TrimestreCapacitacionServiceImpl implements TrimestreCapacitacionSe
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public TrimestreCapacitacion findById(Long id) {
@@ -39,6 +41,7 @@ public class TrimestreCapacitacionServiceImpl implements TrimestreCapacitacionSe
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public TrimestreCapacitacion save(TrimestreCapacitacion model) {
         try {
@@ -48,6 +51,7 @@ public class TrimestreCapacitacionServiceImpl implements TrimestreCapacitacionSe
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

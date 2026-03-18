@@ -18,6 +18,7 @@ public class RamaArtesanalServiceImpl implements RamaArtesanalService {
         this.ramaArtesanalRepository = ramaArtesanalRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<RamaArtesanal> findAll(Pageable pageable) {
@@ -28,6 +29,7 @@ public class RamaArtesanalServiceImpl implements RamaArtesanalService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public RamaArtesanal findById(Long id) {
@@ -38,6 +40,7 @@ public class RamaArtesanalServiceImpl implements RamaArtesanalService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public RamaArtesanal save(RamaArtesanal model) {
         try {
@@ -47,6 +50,7 @@ public class RamaArtesanalServiceImpl implements RamaArtesanalService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

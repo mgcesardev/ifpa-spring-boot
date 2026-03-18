@@ -18,6 +18,7 @@ public class OrganizacionServiceImpl implements OrganizacionService {
         this.organizacionRepository = organizacionRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<Organizacion> findAll(Pageable pageable) {
@@ -28,6 +29,7 @@ public class OrganizacionServiceImpl implements OrganizacionService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Organizacion findById(Long id) {
@@ -38,6 +40,7 @@ public class OrganizacionServiceImpl implements OrganizacionService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public Organizacion save(Organizacion model) {
         try {
@@ -47,6 +50,7 @@ public class OrganizacionServiceImpl implements OrganizacionService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {

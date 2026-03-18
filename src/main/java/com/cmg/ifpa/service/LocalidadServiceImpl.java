@@ -18,6 +18,7 @@ public class LocalidadServiceImpl implements LocalidadService {
         this.localidadRepository = localidadRepository;
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Page<Localidad> findAll(Pageable pageable) {
@@ -28,6 +29,7 @@ public class LocalidadServiceImpl implements LocalidadService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     @Transactional(readOnly = true)
     public Localidad findById(Long id) {
@@ -38,6 +40,7 @@ public class LocalidadServiceImpl implements LocalidadService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public Localidad save(Localidad model) {
         try {
@@ -47,6 +50,7 @@ public class LocalidadServiceImpl implements LocalidadService {
         }
     }
 
+    @SuppressWarnings("null")
     @Override
     public void delete(Long id) {
         try {
