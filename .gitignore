@@ -14,15 +14,3 @@ buildNumber.properties
 .project
 .classpath
 application.properties
-
-### STS ###
-.apt_generated
-.classpath
-.factorypath
-.project
-.settings
-.springBeans
-.sts4-cache
-
-### VS Code ###
-.vscode/
