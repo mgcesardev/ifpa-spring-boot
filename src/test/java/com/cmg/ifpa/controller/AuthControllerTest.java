@@ -18,6 +18,7 @@ import com.cmg.ifpa.model.Usuario;
 import com.cmg.ifpa.repository.UsuarioRepository;
 import com.cmg.ifpa.dto.AuthRequest;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 @WebMvcTest(AuthController.class)
 public class AuthControllerTest {
@@ -39,7 +40,7 @@ public class AuthControllerTest {
         usuario = new Usuario();
         usuario.setIdUsuario(1L);
         usuario.setCorreoElectronico("test@example.com");
-        usuario.setContrasena("password");
+        usuario.setContrasena(BCrypt.hashpw("password", BCrypt.gensalt()));
         usuario.setEstatus("A");
 
         authRequest = new AuthRequest();
