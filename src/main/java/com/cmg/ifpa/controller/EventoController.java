@@ -11,8 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
 import com.cmg.ifpa.service.EventoService;
 import com.cmg.ifpa.model.Evento;
+import com.cmg.ifpa.util.PatchHelper;
+
 
 @RestController
 @RequestMapping("/eventos")
@@ -40,10 +43,16 @@ public class EventoController {
         return eventoService.save(model);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public Evento update(@PathVariable Long id, @RequestBody Evento model) {
-        return eventoService.save(model);
+        Evento existing = eventoService.findById(id);
+        if (existing != null) {
+            PatchHelper.copyNonNullProperties(model, existing);
+            return eventoService.save(existing);
+        }
+        return null;
     }
+
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

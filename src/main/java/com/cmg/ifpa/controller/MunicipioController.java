@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
 import com.cmg.ifpa.service.MunicipioService;
 import com.cmg.ifpa.model.Municipio;
+import com.cmg.ifpa.util.PatchHelper;
 
 @RestController
 @RequestMapping("/municipios")
@@ -40,10 +42,16 @@ public class MunicipioController {
         return municipioService.save(model);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public Municipio update(@PathVariable Long id, @RequestBody Municipio model) {
-        return municipioService.save(model);
+        Municipio existing = municipioService.findById(id);
+        if (existing != null) {
+            PatchHelper.copyNonNullProperties(model, existing);
+            return municipioService.save(existing);
+        }
+        return null; // Or throw 404
     }
+
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

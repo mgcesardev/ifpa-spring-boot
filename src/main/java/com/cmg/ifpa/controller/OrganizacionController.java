@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
 import com.cmg.ifpa.service.OrganizacionService;
 import com.cmg.ifpa.model.Organizacion;
+import com.cmg.ifpa.util.PatchHelper;
 
 @RestController
 @RequestMapping("/organizaciones")
@@ -40,10 +42,16 @@ public class OrganizacionController {
         return organizacionService.save(model);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public Organizacion update(@PathVariable Long id, @RequestBody Organizacion model) {
-        return organizacionService.save(model);
+        Organizacion existing = organizacionService.findById(id);
+        if (existing != null) {
+            PatchHelper.copyNonNullProperties(model, existing);
+            return organizacionService.save(existing);
+        }
+        return null; // Or throw 404
     }
+
 
     @DeleteMapping("/{id}")
     public void delete(@PathVariable Long id) {

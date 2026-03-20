@@ -5,14 +5,19 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
-
-
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import com.cmg.ifpa.service.ComprobacionCapacitacionService;
 import com.cmg.ifpa.model.ComprobacionCapacitacion;
+import com.cmg.ifpa.util.PatchHelper;
 
 @RestController
 @RequestMapping("/comprobaciones-capacitaciones")
@@ -40,9 +45,14 @@ public class ComprobacionCapacitacionController {
         return comprobacionCapacitacionService.save(model);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public ComprobacionCapacitacion update(@PathVariable Long id, @RequestBody ComprobacionCapacitacion model) {
-        return comprobacionCapacitacionService.save(model);
+        ComprobacionCapacitacion existing = comprobacionCapacitacionService.findById(id);
+        if (existing != null) {
+            PatchHelper.copyNonNullProperties(model, existing);
+            return comprobacionCapacitacionService.save(existing);
+        }
+        return null;
     }
 
     @DeleteMapping("/{id}")

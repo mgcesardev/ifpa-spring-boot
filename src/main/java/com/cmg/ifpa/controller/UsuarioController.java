@@ -13,6 +13,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import com.cmg.ifpa.service.UsuarioService;
 import com.cmg.ifpa.model.Usuario;
+import com.cmg.ifpa.util.PatchHelper;
 
 @RestController
 @RequestMapping("/usuarios")
@@ -40,9 +41,14 @@ public class UsuarioController {
         return usuarioService.save(model);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public Usuario update(@PathVariable Long id, @RequestBody Usuario model) {
-        return usuarioService.save(model);
+        Usuario existing = usuarioService.findById(id);
+        if (existing != null) {
+            PatchHelper.copyNonNullProperties(model, existing);
+            return usuarioService.save(existing);
+        }
+        return null;
     }
 
     @DeleteMapping("/{id}")

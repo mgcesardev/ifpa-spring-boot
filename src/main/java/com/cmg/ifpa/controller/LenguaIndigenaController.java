@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
 import com.cmg.ifpa.service.LenguaIndigenaService;
 import com.cmg.ifpa.model.LenguaIndigena;
+import com.cmg.ifpa.util.PatchHelper;
 
 @RestController
 @RequestMapping("/lenguas-indigenas")
@@ -40,9 +42,14 @@ public class LenguaIndigenaController {
         return lenguaIndigenaService.save(model);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public LenguaIndigena update(@PathVariable Long id, @RequestBody LenguaIndigena model) {
-        return lenguaIndigenaService.save(model);
+        LenguaIndigena existing = lenguaIndigenaService.findById(id);
+        if (existing != null) {
+            PatchHelper.copyNonNullProperties(model, existing);
+            return lenguaIndigenaService.save(existing);
+        }
+        return null;
     }
 
     @DeleteMapping("/{id}")
