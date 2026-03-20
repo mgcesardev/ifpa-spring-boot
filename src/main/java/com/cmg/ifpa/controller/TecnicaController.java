@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
 import com.cmg.ifpa.service.TecnicaService;
 import com.cmg.ifpa.model.Tecnica;
+import com.cmg.ifpa.util.PatchHelper;
 
 @RestController
 @RequestMapping("/tecnicas")
@@ -40,9 +42,14 @@ public class TecnicaController {
         return tecnicaService.save(model);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public Tecnica update(@PathVariable Long id, @RequestBody Tecnica model) {
-        return tecnicaService.save(model);
+        Tecnica existing = tecnicaService.findById(id);
+        if (existing != null) {
+            PatchHelper.copyNonNullProperties(model, existing);
+            return tecnicaService.save(existing);
+        }
+        return null; // Or throw 404
     }
 
     @DeleteMapping("/{id}")

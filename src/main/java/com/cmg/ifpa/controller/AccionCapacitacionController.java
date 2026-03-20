@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PatchMapping;
 import com.cmg.ifpa.service.AccionCapacitacionService;
 import com.cmg.ifpa.model.AccionCapacitacion;
+import com.cmg.ifpa.util.PatchHelper;
 
 @RestController
 @RequestMapping("/acciones-capacitaciones")
@@ -40,9 +42,14 @@ public class AccionCapacitacionController {
         return accionCapacitacionService.save(model);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public AccionCapacitacion update(@PathVariable Long id, @RequestBody AccionCapacitacion model) {
-        return accionCapacitacionService.save(model);
+        AccionCapacitacion existing = accionCapacitacionService.findById(id);
+        if (existing != null) {
+            PatchHelper.copyNonNullProperties(model, existing);
+            return accionCapacitacionService.save(existing);
+        }
+        return null;
     }
 
     @DeleteMapping("/{id}")

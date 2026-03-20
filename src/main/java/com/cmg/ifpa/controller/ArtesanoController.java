@@ -11,10 +11,11 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
+import com.cmg.ifpa.util.PatchHelper;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
@@ -73,9 +74,14 @@ public class ArtesanoController {
         return artesanoService.save(artesano);
     }
 
-    @PutMapping("/{id}")
+    @PatchMapping("/{id}")
     public Artesano update(@PathVariable Long id, @RequestBody Artesano artesano) {
-        return artesanoService.save(artesano);
+        Artesano existing = artesanoService.findById(id);
+        if (existing != null) {
+            PatchHelper.copyNonNullProperties(artesano, existing);
+            return artesanoService.save(existing);
+        }
+        return null; // Or throw 404
     }
 
     @DeleteMapping("/{id}")
