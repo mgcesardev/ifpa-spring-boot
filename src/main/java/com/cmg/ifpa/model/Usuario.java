@@ -16,6 +16,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 @Entity
 @Table(name = "usuario")
@@ -48,5 +49,17 @@ public class Usuario {
         if (this.estatus == null) {
             this.estatus = "A";
         }
+        encryptPassword();
     }
+
+    @jakarta.persistence.PreUpdate
+    public void preUpdate() {
+        encryptPassword();
     }
+
+    private void encryptPassword() {
+        if (this.contrasena != null && !this.contrasena.startsWith("$2a$")) {
+            this.contrasena = BCrypt.hashpw(this.contrasena, BCrypt.gensalt());
+        }
+    }
+}
